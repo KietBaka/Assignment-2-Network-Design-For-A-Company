@@ -1,0 +1,136 @@
+! InnerEdgeRouter (2911) - running-config ban nop cuoi
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+hostname InnerEdgeRouter
+no ip cef
+no ipv6 cef
+license udi pid CISCO2911/K9 sn FTX1524KUZ6-
+license boot module c2900 technology-package securityk9
+!
+crypto isakmp policy 10
+ encr aes 256
+ authentication pre-share
+ group 2
+!
+crypto isakmp key HospS2S2026key address 203.0.113.6
+!
+crypto isakmp key HospS2S2026key address 203.0.113.10
+!
+crypto ipsec transform-set TS-S2S esp-aes 256 esp-sha-hmac
+!
+crypto map CMAP 10 ipsec-isakmp
+ set peer 203.0.113.6
+ set transform-set TS-S2S
+ match address 110
+!
+crypto map CMAP 20 ipsec-isakmp
+ set peer 203.0.113.10
+ set transform-set TS-S2S
+ match address 111
+!
+spanning-tree mode pvst
+!
+interface Tunnel1
+ ip address 172.31.1.1 255.255.255.252
+ mtu 1476
+ tunnel source GigabitEthernet0/1
+ tunnel destination 203.0.113.6
+!
+interface Tunnel2
+ ip address 172.31.2.1 255.255.255.252
+ mtu 1476
+ tunnel source GigabitEthernet0/1
+ tunnel destination 203.0.113.10
+!
+interface GigabitEthernet0/0
+ description INSIDE transit 192.168.255.16/28 (OSPF voi 4 MLS)
+ ip address 192.168.255.22 255.255.255.240
+ ip ospf priority 0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ description OUTSIDE public segment 203.0.113.128/28 (dau tunnel ra Internet)
+ ip address 203.0.113.131 255.255.255.240
+ no ip proxy-arp
+ ip access-group VPN-ONLY-IN in
+ duplex auto
+ speed auto
+ crypto map CMAP
+!
+interface GigabitEthernet0/2
+ description MPLS to PE-Main
+ ip address 172.28.1.2 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf cost 10
+ ip ospf priority 1
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/2/0
+ switchport mode access
+!
+interface FastEthernet0/2/1
+ switchport mode access
+!
+interface FastEthernet0/2/2
+ switchport mode access
+!
+interface FastEthernet0/2/3
+ switchport mode access
+!
+interface Serial0/3/0
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Serial0/3/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 1.1.1.5
+ log-adjacency-changes
+ passive-interface GigabitEthernet0/1
+ network 172.28.1.0 0.0.0.3 area 0
+ network 172.31.1.0 0.0.0.3 area 0
+ network 172.31.2.0 0.0.0.3 area 0
+ network 192.168.255.16 0.0.0.15 area 0
+ default-information originate
+!
+ip classless
+ip route 203.0.113.4 255.255.255.252 203.0.113.129
+ip route 203.0.113.8 255.255.255.252 203.0.113.129
+ip route 0.0.0.0 0.0.0.0 192.168.255.17
+ip flow-export version 9
+access-list 110 permit gre host 203.0.113.131 host 203.0.113.6
+access-list 111 permit gre host 203.0.113.131 host 203.0.113.10
+!
+ip access-list extended VPN-ONLY-IN
+ permit esp host 203.0.113.6 host 203.0.113.131
+ permit esp host 203.0.113.10 host 203.0.113.131
+ permit udp host 203.0.113.6 host 203.0.113.131 eq isakmp
+ permit udp host 203.0.113.10 host 203.0.113.131 eq isakmp
+ permit gre host 203.0.113.6 host 203.0.113.131
+ permit gre host 203.0.113.10 host 203.0.113.131
+ permit icmp host 203.0.113.6 host 203.0.113.131
+ permit icmp host 203.0.113.10 host 203.0.113.131
+ permit icmp host 203.0.113.129 host 203.0.113.131
+ permit icmp host 203.0.113.130 host 203.0.113.131
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+end

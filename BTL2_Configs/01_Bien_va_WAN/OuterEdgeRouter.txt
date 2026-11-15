@@ -1,0 +1,107 @@
+! OuterEdgeRouter (2911) - running-config ban nop cuoi
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+hostname OuterEdgeRouter
+!
+aaa new-model
+!
+aaa authentication login VPN-AUTHEN local
+!
+aaa authorization network VPN-AUTHOR local
+!
+ip cef
+no ipv6 cef
+username teleworker secret 5 $1$mERr$MI1fZEhO0N2ENhkpdtf9Y0
+license udi pid CISCO2911/K9 sn FTX15245TA4-
+license boot module c2900 technology-package securityk9
+!
+crypto isakmp policy 10
+ encr aes 256
+ authentication pre-share
+ group 2
+!
+crypto isakmp policy 20
+ encr 3des
+ authentication pre-share
+ group 2
+!
+crypto isakmp client configuration group HOSPITAL-VPN
+ key HospVPN2026key
+ pool VPN-POOL
+!
+crypto ipsec transform-set TS-VPN esp-3des esp-sha-hmac
+!
+crypto dynamic-map DYN-VPN 10
+ set transform-set TS-VPN
+ reverse-route
+!
+crypto map CMAP client authentication list VPN-AUTHEN
+!
+crypto map CMAP isakmp authorization list VPN-AUTHOR
+!
+crypto map CMAP client configuration address respond
+!
+crypto map CMAP 100 ipsec-isakmp dynamic DYN-VPN
+!
+spanning-tree mode pvst
+!
+interface GigabitEthernet0/0
+ description to HOSP-ASA e0/4 (outside segment 203.0.113.128/28)
+ ip address 203.0.113.129 255.255.255.240
+ ip nat inside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ description xDSL1 via Modem1 to ISP-R
+ ip address 203.0.113.2 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+ crypto map CMAP
+!
+interface GigabitEthernet0/2
+ description xDSL2 via Modem2 to ISP-R
+ ip address 198.51.100.2 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip local pool VPN-POOL 192.168.250.10 192.168.250.30
+ip nat inside source list NAT-ISP1 interface GigabitEthernet0/1 overload
+ip nat inside source list NAT-ISP2 interface GigabitEthernet0/2 overload
+ip nat inside source static 192.168.254.10 203.0.113.140
+ip classless
+ip route 0.0.0.0 0.0.0.0 203.0.113.1
+ip route 0.0.0.0 0.0.0.0 198.51.100.1
+ip route 192.168.0.0 255.255.0.0 203.0.113.130
+ip route 172.16.0.0 255.240.0.0 203.0.113.130
+ip route 10.0.0.0 255.0.0.0 203.0.113.130
+ip flow-export version 9
+!
+ip access-list extended NAT-ISP1
+ deny ip 192.168.0.0 0.0.255.255 192.168.250.0 0.0.0.31
+ permit ip 192.168.0.0 0.0.127.255 any
+ permit ip 10.0.0.0 0.255.255.255 any
+!
+ip access-list extended NAT-ISP2
+ deny ip 192.168.0.0 0.0.255.255 192.168.250.0 0.0.0.31
+ permit ip 192.168.128.0 0.0.127.255 any
+ permit ip 172.16.0.0 0.15.255.255 any
+!
+access-list 120 permit ip 192.168.254.64 0.0.0.63 any
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+!
+end

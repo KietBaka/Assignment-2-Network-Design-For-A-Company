@@ -1,0 +1,127 @@
+THIET BI DAU CUOI (trich tu file .pkt ban nop cuoi)
+
+Loai    Ten             IP/Mask                           Gateway         DNS             Dich vu
+Server  CRM-SRV         192.168.254.73/255.255.255.192    192.168.254.65  192.168.254.12  HTTP
+Server  DB-SRV          192.168.254.74/255.255.255.192    192.168.254.65  192.168.254.12  HTTP
+Server  DMZ-DNS-SRV     192.168.254.12/255.255.255.240    192.168.254.1   192.168.254.12  DNS,HTTP
+Server  DMZ-MAIL-SRV    192.168.254.11/255.255.255.240    192.168.254.1   192.168.254.12  EMAIL(hospital.vn),HTTP
+Server  DMZ-WEB-SRV     192.168.254.10/255.255.255.240    192.168.254.1   192.168.254.12  HTTP
+Server  FILE-SRV        192.168.254.76/255.255.255.192    192.168.254.65  192.168.254.12  HTTP
+Server  HIS-SRV         192.168.254.70/255.255.255.192    192.168.254.65  192.168.254.12  HTTP
+Server  INFRA-SRV       192.168.254.75/255.255.255.192    192.168.254.65  192.168.254.12  DHCP,HTTP
+Server  LIS-SRV         192.168.254.72/255.255.255.192    192.168.254.65  192.168.254.12  HTTP
+Server  RISPACS-SRV     192.168.254.71/255.255.255.192    192.168.254.65  192.168.254.12  HTTP
+Server  Server-BHTQ-1   10.3.30.10/255.255.255.0          10.3.30.1       192.168.254.12  HTTP
+Server  Server-BHTQ-2   10.3.30.11/255.255.255.0          10.3.30.1       192.168.254.12  HTTP
+Server  Server-DBP-1    10.2.30.10/255.255.255.0          10.2.30.1       192.168.254.12  HTTP
+Server  Server-DBP-2    10.2.30.11/255.255.255.0          10.2.30.1       192.168.254.12  HTTP
+Server  Web-Internet    8.8.8.8/255.255.255.0             8.8.8.1         8.8.8.8         HTTP
+Pc      Admin           192.168.253.10/255.255.255.0      192.168.253.1   192.168.254.12  
+Pc      Monitor         192.168.253.11/255.255.255.0      192.168.253.1   192.168.254.12  
+Pc      PC-BHTQ-1       DHCP                              (DHCP)          (DHCP)          
+Pc      PC-BHTQ-2       DHCP                              (DHCP)          (DHCP)          
+Pc      PC-DBP-1        DHCP                              (DHCP)          (DHCP)          
+Pc      PC-DBP-2        DHCP                              (DHCP)          (DHCP)          
+Pc      PC-Teleworker   8.8.8.20/255.255.255.0            8.8.8.1         8.8.8.8         
+Pc      PC1             DHCP                              (DHCP)          (DHCP)          
+Pc      PC10            DHCP                              (DHCP)          (DHCP)          
+Pc      PC2             DHCP                              (DHCP)          (DHCP)          
+Pc      PC3             DHCP                              (DHCP)          (DHCP)          
+Pc      PC4             DHCP                              (DHCP)          (DHCP)          
+Pc      PC5             DHCP                              (DHCP)          (DHCP)          
+Pc      PC6             DHCP                              (DHCP)          (DHCP)          
+Pc      PC7             DHCP                              (DHCP)          (DHCP)          
+Pc      PC8             DHCP                              (DHCP)          (DHCP)          
+Pc      PC9             DHCP                              (DHCP)          (DHCP)          
+Laptop  LT1             DHCP                              (DHCP)          (DHCP)          
+Laptop  LT10            DHCP                              (DHCP)          (DHCP)          
+Laptop  LT2             DHCP                              (DHCP)          (DHCP)          
+Laptop  LT3             DHCP                              (DHCP)          (DHCP)          
+Laptop  LT4             DHCP                              (DHCP)          (DHCP)          
+Laptop  LT5             DHCP                              (DHCP)          (DHCP)          
+Laptop  LT6             DHCP                              (DHCP)          (DHCP)          
+Laptop  LT7             DHCP                              (DHCP)          (DHCP)          
+Laptop  LT8             DHCP                              (DHCP)          (DHCP)          
+Laptop  LT9             DHCP                              (DHCP)          (DHCP)          
+
+BAN GHI DNS
+  DMZ-DNS-SRV: his.hospital.vn -> 192.168.254.70
+  DMZ-DNS-SRV: mail.hospital.vn -> 192.168.254.11
+  DMZ-DNS-SRV: web.internet.test -> 8.8.8.8
+  DMZ-DNS-SRV: www.hospital.vn -> 192.168.254.10
+
+DHCP POOL TREN SERVER
+  INFRA-SRV P_VLAN10: 192.168.10.0 255.255.255.0 gw 192.168.10.1 dns 192.168.254.12 start 192.168.10.11 max 244
+  INFRA-SRV P_VLAN20: 192.168.20.0 255.255.255.0 gw 192.168.20.1 dns 192.168.254.12 start 192.168.20.11 max 244
+  INFRA-SRV P_VLAN30: 192.168.30.0 255.255.255.0 gw 192.168.30.1 dns 192.168.254.12 start 192.168.30.11 max 244
+  INFRA-SRV P_VLAN40: 192.168.40.0 255.255.255.0 gw 192.168.40.1 dns 192.168.254.12 start 192.168.40.11 max 244
+  INFRA-SRV P_VLAN50: 192.168.50.0 255.255.255.0 gw 192.168.50.1 dns 192.168.254.12 start 192.168.50.11 max 244
+  INFRA-SRV P_VLAN60: 192.168.60.0 255.255.255.0 gw 192.168.60.1 dns 192.168.254.12 start 192.168.60.11 max 244
+  INFRA-SRV P_VLAN70: 192.168.70.0 255.255.255.0 gw 192.168.70.1 dns 192.168.254.12 start 192.168.70.11 max 244
+  INFRA-SRV P_VLAN80: 192.168.80.0 255.255.255.0 gw 192.168.80.1 dns 192.168.254.12 start 192.168.80.11 max 244
+  INFRA-SRV P_VLAN90: 192.168.90.0 255.255.255.0 gw 192.168.90.1 dns 192.168.254.12 start 192.168.90.11 max 244
+  INFRA-SRV P_VLAN100: 192.168.100.0 255.255.255.0 gw 192.168.100.1 dns 192.168.254.12 start 192.168.100.11 max 244
+  INFRA-SRV P_GUEST200: 192.168.200.0 255.255.254.0 gw 192.168.200.1 dns 192.168.254.12 start 192.168.200.11 max 500
+  INFRA-SRV P_MED400: 172.16.0.0 255.255.240.0 gw 172.16.0.1 dns 192.168.254.12 start 172.16.0.11 max 500
+
+ACCESS POINT
+  AP-Guest-BHTQ: SSID Hospital-Guest, Open (khong ma hoa)
+  AP-Guest-DBP: SSID Hospital-Guest, Open (khong ma hoa)
+  AP1: SSID Hospital-Guest, Open (khong ma hoa)
+  AP10: SSID Hospital-Guest, Open (khong ma hoa)
+  AP2: SSID Hospital-Guest, Open (khong ma hoa)
+  AP3: SSID Hospital-Guest, Open (khong ma hoa)
+  AP4: SSID Hospital-Guest, Open (khong ma hoa)
+  AP5: SSID Hospital-Guest, Open (khong ma hoa)
+  AP6: SSID Hospital-Guest, Open (khong ma hoa)
+  AP7: SSID Hospital-Guest, Open (khong ma hoa)
+  AP8: SSID Hospital-Guest, Open (khong ma hoa)
+  AP9: SSID Hospital-Guest, Open (khong ma hoa)
+
+VI TRI KET NOI (cong switch / VLAN)
+  AP-Guest-BHTQ   Acc-BHTQ-F1 Fa0/24 (VLAN 200)
+  AP-Guest-DBP    Acc-DBP-F1 Fa0/24 (VLAN 200)
+  AP1             SW1 Fa0/2 (VLAN 200)
+  AP10            SW10 Fa0/2 (VLAN 200)
+  AP2             SW2 Fa0/2 (VLAN 200)
+  AP3             SW3 Fa0/2 (VLAN 200)
+  AP4             SW4 Fa0/2 (VLAN 200)
+  AP5             SW5 Fa0/2 (VLAN 200)
+  AP6             SW6 Fa0/3 (VLAN 200)
+  AP7             SW7 Fa0/2 (VLAN 200)
+  AP8             SW8 Fa0/2 (VLAN 200)
+  AP9             SW9 Fa0/2 (VLAN 200)
+  Admin           CORE-SW Fa0/2 (VLAN 99)
+  CRM-SRV         SF-SW1 Fa0/4 (VLAN 500) + SF-SW2 Fa0/4 (VLAN 500)
+  DB-SRV          SF-SW1 Fa0/5 (VLAN 500) + SF-SW2 Fa0/5 (VLAN 500)
+  DMZ-DNS-SRV     DMZ-SW Fa0/2 (VLAN 1)
+  DMZ-MAIL-SRV    DMZ-SW Fa0/3 (VLAN 1)
+  DMZ-WEB-SRV     DMZ-SW Fa0/1 (VLAN 1)
+  FILE-SRV        SF-SW1 Fa0/7 (VLAN 500) + SF-SW2 Fa0/7 (VLAN 500)
+  HIS-SRV         SF-SW1 Fa0/1 (VLAN 500) + SF-SW2 Fa0/1 (VLAN 500)
+  INFRA-SRV       SF-SW1 Fa0/6 (VLAN 500) + SF-SW2 Fa0/6 (VLAN 500)
+  LIS-SRV         SF-SW1 Fa0/3 (VLAN 500) + SF-SW2 Fa0/3 (VLAN 500)
+  Monitor         CORE-SW Fa0/1 (VLAN 99)
+  PC-BHTQ-1       Acc-BHTQ-F1 Fa0/1 (VLAN 10)
+  PC-BHTQ-2       Acc-BHTQ-F2 Fa0/1 (VLAN 20)
+  PC-DBP-1        Acc-DBP-F1 Fa0/1 (VLAN 10)
+  PC-DBP-2        Acc-DBP-F2 Fa0/1 (VLAN 20)
+  PC-Teleworker   ISP-R Gi1/0/5 (VLAN 8)
+  PC1             SW1 Fa0/1 (VLAN 10)
+  PC10            SW10 Fa0/1 (VLAN 100)
+  PC2             SW2 Fa0/1 (VLAN 20)
+  PC3             SW3 Fa0/1 (VLAN 30)
+  PC4             SW4 Fa0/1 (VLAN 40)
+  PC5             SW5 Fa0/1 (VLAN 50)
+  PC6             SW6 Fa0/2 (VLAN 60)
+  PC7             SW7 Fa0/1 (VLAN 70)
+  PC8             SW8 Fa0/1 (VLAN 80)
+  PC9             SW9 Fa0/1 (VLAN 90)
+  RISPACS-SRV     SF-SW1 Fa0/2 (VLAN 500) + SF-SW2 Fa0/2 (VLAN 500)
+  Server-BHTQ-1   Core-BHTQ Gi1/0/4 (VLAN 30)
+  Server-BHTQ-2   Core-BHTQ Gi1/0/5 (VLAN 30)
+  Server-DBP-1    Core-DBP Gi1/0/4 (VLAN 30)
+  Server-DBP-2    Core-DBP Gi1/0/5 (VLAN 30)
+  Web-Internet    ISP-R Gi1/0/4 (VLAN 8)
+  LT1..LT10      Wi-Fi Hospital-Guest qua AP1..AP10 (VLAN 200)
+  Ghi chu: DMZ-SW dung VLAN 1 noi bo; cong Fa0/4 noi ASA E0/3 (VLAN 510 dmz tren ASA).

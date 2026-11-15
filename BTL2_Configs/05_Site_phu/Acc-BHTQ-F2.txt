@@ -1,0 +1,268 @@
+! Acc-BHTQ-F2 (2960-24TT) - running-config ban nop cuoi
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+hostname Acc-BHTQ-F2
+no ip domain-lookup
+vtp mode transparent
+spanning-tree mode rapid-pvst
+spanning-tree portfast bpduguard default
+spanning-tree extend system-id
+vlan 20
+ name DEPT2
+vlan 99
+ name MGMT
+vlan 200
+ name GUEST
+vlan 300
+ name CAMERA
+vlan 400
+ name MEDICAL
+vlan 999
+ name NATIVE-UNUSED
+!
+interface FastEthernet0/1
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ switchport port-security mac-address sticky 00E0.B0AE.9B13
+ spanning-tree portfast
+!
+interface FastEthernet0/2
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/3
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/5
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/6
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/7
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/8
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/9
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/10
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/11
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/12
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/13
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/14
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/15
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/16
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/17
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/18
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/19
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/20
+ description PC tang 2
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface FastEthernet0/21
+ description Camera (VLAN 300)
+ switchport access vlan 300
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/22
+ description Camera (VLAN 300)
+ switchport access vlan 300
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/23
+ description Thiet bi y te (VLAN 400)
+ switchport access vlan 400
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/1
+ description trunk to Core-BHTQ
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,99,200,300,400
+ switchport mode trunk
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan99
+ ip address 10.3.99.12 255.255.255.0
+!
+ip default-gateway 10.3.99.1
+!
+line con 0
+!
+line vty 0 4
+ login
+!
+line vty 5 15
+ login
+!
+end

@@ -1,0 +1,234 @@
+! MLS-B1 (3650-24PS) - running-config ban nop cuoi
+!
+version 16.3.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+hostname MLS-B1
+no profinet
+no ip cef
+ip routing
+no ipv6 cef
+no ip domain-lookup
+vtp mode transparent
+spanning-tree mode rapid-pvst
+spanning-tree vlan 60,70,80,90,100,200,400 priority 8192
+vlan 10
+ name DEPT1
+vlan 20
+ name DEPT2
+vlan 30
+ name DEPT3
+vlan 40
+ name DEPT4
+vlan 50
+ name DEPT5
+vlan 60
+ name DEPT6
+vlan 70
+ name DEPT7
+vlan 80
+ name DEPT8
+vlan 90
+ name DEPT9
+vlan 99
+ name MGMT
+vlan 100
+ name DEPT10
+vlan 200
+ name GUEST
+vlan 300
+ name CAMERA
+vlan 400
+ name MEDICAL
+vlan 500
+ name SERVER-FARM
+vlan 999
+ name NATIVE-UNUSED
+!
+interface Port-channel2
+ description EtherChannel to MLS-B
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/1
+ description trunk to SW6 Gi0/2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/2
+ description trunk to SW7 Gi0/2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/3
+ description trunk to SW8 Gi0/2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/4
+ description trunk to SW9 Gi0/2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/5
+ description trunk to SW10 Gi0/2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/8
+ description to HOSP-ASA (inside transit)
+ no switchport
+ ip address 192.168.255.21 255.255.255.240
+ duplex auto
+ speed auto
+ standby version 2
+ standby 254 ip 192.168.255.30
+ standby 254 priority 95
+ standby 254 preempt
+!
+interface GigabitEthernet1/0/19
+ description member of Po2 to MLS-B
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+ channel-group 2 mode active
+!
+interface GigabitEthernet1/0/20
+ description member of Po2 to MLS-B
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+ channel-group 2 mode active
+!
+interface GigabitEthernet1/0/22
+ description cross-link to MLS-A Gi1/0/22
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/23
+ description cross-link to MLS-A1 Gi1/0/23
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/24
+ description trunk to SF-SW2 Gi0/2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99-100,200,300,400,500
+ switchport mode trunk
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan60
+ description DEPT6
+ mac-address 00e0.8f72.c901
+ ip address 192.168.60.3 255.255.255.0
+ ip helper-address 192.168.254.75
+ standby version 2
+ standby 60 ip 192.168.60.1
+ standby 60 preempt
+!
+interface Vlan70
+ description DEPT7
+ mac-address 00e0.8f72.c902
+ ip address 192.168.70.3 255.255.255.0
+ ip helper-address 192.168.254.75
+ standby version 2
+ standby 70 ip 192.168.70.1
+ standby 70 preempt
+!
+interface Vlan80
+ description DEPT8
+ mac-address 00e0.8f72.c903
+ ip address 192.168.80.3 255.255.255.0
+ ip helper-address 192.168.254.75
+ standby version 2
+ standby 80 ip 192.168.80.1
+ standby 80 preempt
+!
+interface Vlan90
+ description DEPT9
+ mac-address 00e0.8f72.c904
+ ip address 192.168.90.3 255.255.255.0
+ ip helper-address 192.168.254.75
+ standby version 2
+ standby 90 ip 192.168.90.1
+ standby 90 preempt
+!
+interface Vlan100
+ description DEPT10
+ mac-address 00e0.8f72.c905
+ ip address 192.168.100.3 255.255.255.0
+ ip helper-address 192.168.254.75
+ standby version 2
+ standby 100 ip 192.168.100.1
+ standby 100 preempt
+!
+interface Vlan200
+ description GUEST
+ mac-address 00e0.8f72.c906
+ ip address 192.168.200.3 255.255.254.0
+ ip helper-address 192.168.254.75
+ ip access-group GUEST-IN in
+ standby version 2
+ standby 200 ip 192.168.200.1
+ standby 200 preempt
+!
+interface Vlan400
+ description MEDICAL
+ mac-address 00e0.8f72.c907
+ ip address 172.16.0.3 255.255.240.0
+ ip helper-address 192.168.254.75
+ ip access-group MED-IN in
+ standby version 2
+ standby 400 ip 172.16.0.1
+ standby 400 preempt
+!
+router ospf 1
+ router-id 1.1.1.4
+ log-adjacency-changes
+ passive-interface default
+ no passive-interface GigabitEthernet1/0/8
+ network 192.168.0.0 0.0.255.255 area 0
+ network 172.16.0.0 0.0.15.255 area 0
+ network 192.168.255.16 0.0.0.15 area 0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 192.168.255.17
+ip flow-export version 9
+!
+ip access-list extended GUEST-IN
+ permit udp any eq bootpc any eq bootps
+ permit udp any host 192.168.254.12 eq domain
+ permit tcp any host 192.168.254.10 eq www
+ permit tcp any host 192.168.254.10 eq 443
+ deny ip any 10.0.0.0 0.255.255.255
+ deny ip any 172.16.0.0 0.15.255.255
+ deny ip any 192.168.0.0 0.0.255.255
+ permit ip any any
+!
+ip access-list extended MED-IN
+ permit udp 172.16.0.0 0.0.15.255 host 224.0.0.102 eq 1985
+ permit udp any eq bootpc any eq bootps
+ permit ip 172.16.0.0 0.0.15.255 192.168.254.64 0.0.0.63
+ permit ip 172.16.0.0 0.0.15.255 172.16.0.0 0.0.15.255
+ deny ip any any
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+end

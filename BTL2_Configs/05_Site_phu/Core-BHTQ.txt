@@ -1,0 +1,169 @@
+! Core-BHTQ (3650-24PS) - running-config ban nop cuoi
+!
+version 16.3.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+hostname Core-BHTQ
+no profinet
+ip dhcp excluded-address 10.3.10.1 10.3.10.10
+ip dhcp excluded-address 10.3.20.1 10.3.20.10
+ip dhcp excluded-address 10.3.200.1 10.3.200.10
+ip dhcp excluded-address 10.3.140.1 10.3.140.10
+!
+ip dhcp pool FLOOR1
+ network 10.3.10.0 255.255.255.0
+ default-router 10.3.10.1
+ dns-server 192.168.254.12
+!
+ip dhcp pool FLOOR2
+ network 10.3.20.0 255.255.255.0
+ default-router 10.3.20.1
+ dns-server 192.168.254.12
+!
+ip dhcp pool GUEST
+ network 10.3.200.0 255.255.255.0
+ default-router 10.3.200.1
+ dns-server 192.168.254.12
+!
+ip dhcp pool MEDICAL
+ network 10.3.140.0 255.255.255.128
+ default-router 10.3.140.1
+ dns-server 192.168.254.12
+!
+no ip cef
+ip routing
+no ipv6 cef
+no ip domain-lookup
+vtp mode transparent
+spanning-tree mode rapid-pvst
+vlan 10
+ name DEPT1
+vlan 20
+ name DEPT2
+vlan 30
+ name DEPT3
+vlan 99
+ name MGMT
+vlan 200
+ name GUEST
+vlan 300
+ name CAMERA
+vlan 400
+ name MEDICAL
+vlan 999
+ name NATIVE-UNUSED
+!
+interface Loopback0
+ ip address 10.3.255.1 255.255.255.255
+!
+interface GigabitEthernet1/0/1
+ description to CE-BHTQ
+ no switchport
+ ip address 10.3.0.1 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf priority 1
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet1/0/2
+ description trunk to Acc-BHTQ-F1 / F2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,99,200,300,400
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/3
+ description trunk to Acc-BHTQ-F1 / F2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,99,200,300,400
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/4
+ description Server-BHTQ-1 (10.3.30.10)
+ switchport access vlan 30
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/5
+ description Server-BHTQ-2 (10.3.30.11)
+ switchport access vlan 30
+ switchport mode access
+ spanning-tree portfast
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ mac-address 0002.174c.4801
+ ip address 10.3.10.1 255.255.255.0
+!
+interface Vlan20
+ mac-address 0002.174c.4802
+ ip address 10.3.20.1 255.255.255.0
+!
+interface Vlan30
+ mac-address 0002.174c.4803
+ ip address 10.3.30.1 255.255.255.0
+!
+interface Vlan99
+ mac-address 0002.174c.4804
+ ip address 10.3.99.1 255.255.255.0
+!
+interface Vlan200
+ description GUEST WIFI
+ mac-address 0002.174c.4805
+ ip address 10.3.200.1 255.255.255.0
+ ip access-group GUEST-IN in
+!
+interface Vlan300
+ description CAMERA
+ mac-address 0002.174c.4806
+ ip address 10.3.130.1 255.255.255.192
+ ip access-group CAM-IN in
+!
+interface Vlan400
+ description MEDICAL
+ mac-address 0002.174c.4807
+ ip address 10.3.140.1 255.255.255.128
+ ip access-group MED-IN in
+!
+router ospf 10
+ router-id 10.3.255.1
+ log-adjacency-changes
+ passive-interface default
+ no passive-interface GigabitEthernet1/0/1
+ network 10.3.0.0 0.0.255.255 area 2
+!
+ip classless
+ip flow-export version 9
+!
+ip access-list extended GUEST-IN
+ permit udp any eq bootpc any eq bootps
+ permit udp any host 192.168.254.12 eq domain
+ permit tcp any host 192.168.254.10 eq www
+ permit tcp any host 192.168.254.10 eq 443
+ deny ip any 10.0.0.0 0.255.255.255
+ deny ip any 172.16.0.0 0.15.255.255
+ deny ip any 192.168.0.0 0.0.255.255
+ permit ip any any
+!
+ip access-list extended CAM-IN
+ permit ip 10.3.130.0 0.0.0.63 10.3.0.0 0.0.255.255
+ permit ip 10.3.130.0 0.0.0.63 192.168.254.64 0.0.0.63
+ deny ip any any
+!
+ip access-list extended MED-IN
+ permit udp any eq bootpc any eq bootps
+ permit ip 10.3.140.0 0.0.0.127 10.3.0.0 0.0.255.255
+ permit ip 10.3.140.0 0.0.0.127 192.168.254.64 0.0.0.63
+ deny ip any any
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+end
