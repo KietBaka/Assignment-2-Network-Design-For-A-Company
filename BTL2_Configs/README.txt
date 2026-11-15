@@ -1,5 +1,5 @@
 BTL2 - THIET KE MANG BENH VIEN - CAU HINH BAN NOP CUOI
-Nguon: running-config trich truc tiep tu file BTL2_MMT_FinalFinal2.1.pkt (Packet Tracer 9.0.1).
+Nguon: running-config trich truc tiep tu file BTL2_Mo_phong_tren_Packet_Tracer.pkt (Packet Tracer 9.0.1).
 
 01_Bien_va_WAN         ISP-R, OuterEdgeRouter, HOSP-ASA, InnerEdgeRouter, PE-Main, P-Core, PE-DBP, PE-BHTQ, CE-DBP, CE-BHTQ
 02_Core_va_Transit     MLS-A, MLS-A1, MLS-B, MLS-B1, TRANSIT-SW
